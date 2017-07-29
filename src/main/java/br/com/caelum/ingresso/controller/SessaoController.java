@@ -41,12 +41,12 @@ public class SessaoController {
 
 
     @GetMapping({"/admin/sessao"})
-    public ModelAndView form(SessaoForm fom, Integer salaId){
+    public ModelAndView form( Integer salaId,SessaoForm form){
 
         ModelAndView modelAndView = new ModelAndView("sessao/sessao");
 
 
-        modelAndView.addObject("filme", filmeDao.findAll());
+        modelAndView.addObject("filmes", filmeDao.findAll());
         modelAndView.addObject("sala", salaDao.findOne(salaId));
         
 
@@ -58,7 +58,7 @@ public class SessaoController {
     @Transactional
     public ModelAndView salva(@Valid SessaoForm form, BindingResult result){
     	if(result.hasErrors()){
-    		return form(form,form.getSalaId());
+    		return form(form.getSalaId(),form);
     		
     	}
     	
@@ -73,29 +73,5 @@ public class SessaoController {
     
     
     
-    
-    
-    
-    
-    
-
-
-    @GetMapping(value="/admin/sessao")
-    public ModelAndView lista(){
-
-        ModelAndView modelAndView = new ModelAndView("filme/lista");
-
-        modelAndView.addObject("filmes", filmeDao.findAll());
-
-        return modelAndView;
-    }
-
-
-    @DeleteMapping("/admin/filme/{id}")
-    @ResponseBody
-    @Transactional
-    public void delete(@PathVariable("id") Integer id){
-        filmeDao.delete(id);
-    }
 
 }
