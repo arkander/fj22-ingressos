@@ -18,8 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import br.com.caelum.ingresso.dao.FilmeDao;
 import br.com.caelum.ingresso.dao.SessaoDao;
+import br.com.caelum.ingresso.model.DetalhesFilme;
 import br.com.caelum.ingresso.model.Filme;
 import br.com.caelum.ingresso.model.Sessao;
+import br.com.caelum.ingresso.rest.ImdbClient;
 
 /**
  * Created by nando on 03/03/17.
@@ -30,6 +32,11 @@ public class FilmeController {
 
     @Autowired
     private FilmeDao filmeDao;
+    
+    @Autowired
+    private ImdbClient client;
+    
+    
     
     @Autowired
     private SessaoDao sessaoDao;
@@ -43,16 +50,12 @@ public class FilmeController {
     
     @GetMapping("/filme/{id}/detalhe")
     public ModelAndView detalhe(@PathVariable("id") Integer id){
-    	ModelAndView mv = new ModelAndView("filme/detalhe");
-    	
-    	Filme filme = filmeDao.findOne(id);
-    	
-    	List<Sessao> sessoes = sessaoDao.buscaSessoesPeloFilme(filme) ;
-    	
-    	
-    	
-    	
+    	ModelAndView mv = new ModelAndView("filme/detalhe");    	
+    	Filme filme = filmeDao.findOne(id);    	
+    	List<Sessao> sessoes = sessaoDao.buscaSessoesPeloFilme(filme) ;    	
+    	Optional<DetalhesFilme> detalhes = client.request(filme);  	
     	mv.addObject("sessoes",sessoes);
+    	mv.addObject("detalhes",detalhes.orElse(new DetalhesFilme()));
     	return mv;
     }
     
