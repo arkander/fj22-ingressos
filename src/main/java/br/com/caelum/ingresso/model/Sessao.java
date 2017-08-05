@@ -19,7 +19,7 @@ public class Sessao {
 	
 	
 	public BigDecimal getPreco() {
-		return filme.getPreco().add(sala.getPreco());
+		return preco;
 	}
 
 
