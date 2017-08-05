@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.caelum.helpers.GerenciadorSessoes;
 import br.com.caelum.ingresso.dao.FilmeDao;
 import br.com.caelum.ingresso.dao.SalaDao;
 import br.com.caelum.ingresso.dao.SessaoDao;
@@ -59,11 +60,19 @@ public class SessaoController {
     	if(result.hasErrors()){
     		return form(form,form.getSalaId());    		
     	}    	
-    	Sessao s= form.toSessao(salaDao, filmeDao);       
-    	sessaoDao.save(s);
-        ModelAndView view = new ModelAndView("redirect:/admin/sala/"+form.getSalaId()+"/sessoes");        
-        Sessao sessao= form.toSessao(salaDao, filmeDao);
-        return view;
+    	Sessao s= form.toSessao(salaDao, filmeDao);  
+    	
+    	
+    	GerenciadorSessoes gs= new  GerenciadorSessoes(sessaoDao.buscaSessoesDaSala(s.getSala()));
+    	if(gs.cabe(s)){
+    		sessaoDao.save(s);
+            ModelAndView view = new ModelAndView("redirect:/admin/sala/"+form.getSalaId()+"/sessoes");       
+            
+            return view;
+    	}
+    	return form(form,s.getId());
+    	
+    	
     }
     
     @DeleteMapping("/admin/sessao/{id}")
