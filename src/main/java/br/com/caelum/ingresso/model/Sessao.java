@@ -18,6 +18,15 @@ public class Sessao {
 	
 	
 	
+	public BigDecimal getPreco() {
+		return filme.getPreco().add(sala.getPreco());
+	}
+
+
+	public void setPreco(BigDecimal preco) {
+		this.preco = preco;
+	}
+
 	@ManyToOne
 	private Filme filme;
 	
