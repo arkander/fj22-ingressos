@@ -1,5 +1,6 @@
 package br.com.caelum.ingresso.model;
 
+import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
@@ -12,6 +13,10 @@ import javax.persistence.ManyToOne;
 public class Sessao {
 	@Id @GeneratedValue
 	private Integer id;
+	
+	private BigDecimal preco;
+	
+	
 	
 	@ManyToOne
 	private Filme filme;
@@ -41,6 +46,7 @@ public class Sessao {
 		this.filme = filme;
 		this.horario = horario;
 		this.sala = sala;
+		this.preco = filme.getPreco().add(sala.getPreco());
 	}
 
 	public Filme getFilme() {
