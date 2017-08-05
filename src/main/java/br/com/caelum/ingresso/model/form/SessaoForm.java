@@ -8,11 +8,23 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import br.com.caelum.ingresso.dao.FilmeDao;
 import br.com.caelum.ingresso.dao.SalaDao;
+import br.com.caelum.ingresso.model.Filme;
+import br.com.caelum.ingresso.model.Sala;
 import br.com.caelum.ingresso.model.Sessao;
 
 public class SessaoForm {
 	
+	private Integer id;
+
 	
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	@NotNull	
 	private Integer salaId;
 	
@@ -43,7 +55,13 @@ public class SessaoForm {
 	
 	public Sessao toSessao(SalaDao salaDao, FilmeDao filmeDao){
 		
-		return new Sessao(filmeDao.findOne(filmeId), horario, salaDao.findOne(salaId));
+		Filme f = filmeDao.findOne(filmeId);
+		Sala s = salaDao.findOne(filmeId);
+		Sessao ss= new Sessao(f,horario,s);
+		
+		ss.setId(id);
+		
+		return ss;
 	}
 	
 	
