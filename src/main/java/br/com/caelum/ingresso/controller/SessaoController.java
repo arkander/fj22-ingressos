@@ -1,5 +1,7 @@
 package br.com.caelum.ingresso.controller;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.caelum.helpers.GerenciadorSessoes;
+import br.com.caelum.helpers.TipoDeIngresso;
 import br.com.caelum.ingresso.dao.FilmeDao;
 import br.com.caelum.ingresso.dao.SalaDao;
 import br.com.caelum.ingresso.dao.SessaoDao;
+import br.com.caelum.ingresso.model.ImagemCapa;
 import br.com.caelum.ingresso.model.Sessao;
 import br.com.caelum.ingresso.model.form.SessaoForm;
+import br.com.caelum.ingresso.rest.ImdbClient;
 
 /**
  * Created by nando on 03/03/17.
@@ -35,6 +40,9 @@ public class SessaoController {
     
     @Autowired
     SessaoDao sessaoDao;
+    
+    @Autowired
+    private ImdbClient client;
     
 
 
@@ -74,6 +82,21 @@ public class SessaoController {
     	
     	
     }
+    
+    @GetMapping("/sessao/{id}/lugares")    
+    public ModelAndView lugaresNaSessao(@PathVariable("id") Integer sessaoId){
+    	ModelAndView view = new ModelAndView("sessao/lugares");     
+    	Sessao sessao = sessaoDao.findOne(sessaoId);
+    	Optional<ImagemCapa> imagemCapa = client.request(sessao.getFilme(), ImagemCapa.class);
+    	
+    	
+    	view.addObject("sessao", sessao);
+    	view.addObject("imagemCapa", imagemCapa.orElse(new ImagemCapa()));
+    	view.addObject("tiposDeIngressos", TipoDeIngresso.values());
+    	
+    	return view;
+    }
+    
     
     @DeleteMapping("/admin/sessao/{id}")
     @ResponseBody
