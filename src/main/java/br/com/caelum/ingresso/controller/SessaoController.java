@@ -21,6 +21,7 @@ import br.com.caelum.helpers.TipoDeIngresso;
 import br.com.caelum.ingresso.dao.FilmeDao;
 import br.com.caelum.ingresso.dao.SalaDao;
 import br.com.caelum.ingresso.dao.SessaoDao;
+import br.com.caelum.ingresso.model.Carrinho;
 import br.com.caelum.ingresso.model.ImagemCapa;
 import br.com.caelum.ingresso.model.Sessao;
 import br.com.caelum.ingresso.model.form.SessaoForm;
@@ -43,6 +44,9 @@ public class SessaoController {
     
     @Autowired
     private ImdbClient client;
+    
+    @Autowired
+    private Carrinho carrinho;
     
 
 
@@ -93,9 +97,17 @@ public class SessaoController {
     	view.addObject("sessao", sessao);
     	view.addObject("imagemCapa", imagemCapa.orElse(new ImagemCapa()));
     	view.addObject("tiposDeIngressos", TipoDeIngresso.values());
+    	view.addObject("carrinho", carrinho);
     	
     	return view;
     }
+    
+    
+    
+    
+    
+    
+    
     
     
     @DeleteMapping("/admin/sessao/{id}")

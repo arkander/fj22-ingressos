@@ -16,11 +16,14 @@ public class Ingresso {
 	
 	@ManyToOne
 	private Sessao sessao;
+	
 	private BigDecimal preco;
+	
 	@ManyToOne
 	private Lugar lugar;
+	
 	@Enumerated(EnumType.STRING)
-	private TipoDeIngresso tipoIngresso;
+	private TipoDeIngresso tipoDeIngresso;
 	
 	@Id
 	@GeneratedValue
@@ -44,10 +47,10 @@ public class Ingresso {
 	}
 	
 	public Ingresso(Sessao sessao, TipoDeIngresso tipoIngresso,Lugar lugar) {
-		super();
+		
 		this.sessao = sessao;
-		this.tipoIngresso=tipoIngresso;
-		this.preco = this.tipoIngresso.aplicaDesconto(sessao.getPreco());
+		this.tipoDeIngresso = tipoIngresso;
+		this.preco = this.tipoDeIngresso.aplicaDesconto(sessao.getPreco());
 		this.lugar = lugar;
 	}
 	public Lugar getLugar() {
@@ -56,8 +59,8 @@ public class Ingresso {
 	public void setLugar(Lugar lugar) {
 		this.lugar = lugar;
 	}
-	public TipoDeIngresso getTipoIngresso() {
-		return tipoIngresso;
+	public TipoDeIngresso getTipoDeIngresso() {
+		return tipoDeIngresso;
 	}
 	public Integer getId() {
 		return id;
@@ -65,8 +68,8 @@ public class Ingresso {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public void setTipoIngresso(TipoDeIngresso tipoIngresso) {
-		this.tipoIngresso = tipoIngresso;
+	public void setTipoDeIngresso(TipoDeIngresso tipoIngresso) {
+		this.tipoDeIngresso = tipoIngresso;
 	}
 
 }

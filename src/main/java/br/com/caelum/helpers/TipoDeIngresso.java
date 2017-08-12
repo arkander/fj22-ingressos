@@ -13,7 +13,7 @@ public enum TipoDeIngresso {
 	ESTUDANTE(new DescontoEstudante()),
 	BANCO(new DescontoTrintaPorCento());
 	
-	private Desconto desconto;
+	private final Desconto desconto;
 	
 	TipoDeIngresso(Desconto desconto){
 		this.desconto = desconto;
