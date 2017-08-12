@@ -48,6 +48,10 @@ public class Carrinho {
     public Compra toCompra(){
     	return new Compra(ingressos);
     }
+    
+    public void emptyCart(){
+    	this.ingressos.clear();
+    }
 
 	
 }
